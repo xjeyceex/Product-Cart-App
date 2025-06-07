@@ -1,25 +1,19 @@
-import logo from './logo.svg';
-import './App.css';
+import ProductList from './components/ProductList';
+import Cart from './components/Cart';
+import { CartProvider } from './context/CartContext';
 
-function App() {
+export default function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+   <CartProvider>
+    <main className="p-4 max-w-7xl mx-auto flex gap-8">
+      <div className="flex-[2]">
+        <h1 className="text-2xl font-bold mb-4">Product Store</h1>
+        <ProductList />
+      </div>
+      <aside className="flex-[1] sticky top-4 self-start border p-4 rounded shadow max-w-md">
+        <Cart />
+      </aside>
+    </main>
+  </CartProvider>
   );
 }
-
-export default App;
