@@ -4,7 +4,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 Before you start
 Make sure to run the following command first to install all dependencies:
-npm install --legacy-peer-deps
+### `npm install --legacy-peer-deps`
 
 ## Available Scripts
 
