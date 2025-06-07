@@ -3,17 +3,19 @@ import React, { createContext, useContext, useState, useEffect } from 'react';
 const CartContext = createContext();
 
 export function CartProvider({ children }) {
-  // Load cart and coupon state from localStorage on init
   const [cart, setCart] = useState(() => {
     const saved = localStorage.getItem('cart');
     return saved ? JSON.parse(saved) : [];
   });
+
   const [couponCode, setCouponCode] = useState(() => {
     return localStorage.getItem('couponCode') || '';
   });
+
   const [isCouponApplied, setIsCouponApplied] = useState(() => {
-    return localStorage.getItem('isCouponApplied') === 'true' || false;
+    return localStorage.getItem('isCouponApplied') === 'true';
   });
+
   const [grandTotal, setGrandTotal] = useState(0);
   const [couponError, setCouponError] = useState('');
 
@@ -26,9 +28,13 @@ export function CartProvider({ children }) {
     localStorage.setItem('isCouponApplied', isCouponApplied);
   }, [couponCode, isCouponApplied]);
 
+  // ✅ Move calculateTotal into its own effect
   useEffect(() => {
     calculateTotal();
+  }, [cart, isCouponApplied]);
 
+  // ✅ Only run coupon drop logic here
+  useEffect(() => {
     const totalBeforeDiscount = cart.reduce(
       (acc, item) => acc + item.price * item.quantity,
       0
@@ -46,11 +52,10 @@ export function CartProvider({ children }) {
 
     const timer = setTimeout(() => {
       setCouponError('');
-    }, 3000); 
+    }, 3000);
 
     return () => clearTimeout(timer);
   }, [couponError]);
-
 
   const addToCart = (product, quantity) => {
     setCart(prev => {

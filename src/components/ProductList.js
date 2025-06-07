@@ -5,23 +5,33 @@ export default function ProductList() {
   const [products, setProducts] = useState([]);
   const { addToCart } = useCart();
   const [quantities, setQuantities] = useState({});
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    fetch('https://fakestoreapi.com/products')
-      .then(res => res.json())
-      .then(data => {
+    async function fetchProducts() {
+      try {
+        const res = await fetch('https://fakestoreapi.com/products');
+        if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
+        const data = await res.json();
         setProducts(data);
         const initialQuantities = data.reduce((acc, item) => {
           acc[item.id] = 1;
           return acc;
         }, {});
         setQuantities(initialQuantities);
-      });
+      } catch (err) {
+        setError(err.message);
+      }
+    }
+
+    fetchProducts();
   }, []);
 
   const handleChange = (id, value) => {
     setQuantities({ ...quantities, [id]: value });
   };
+
+  if (error) return <div role="alert">Error: {error}</div>;
 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
