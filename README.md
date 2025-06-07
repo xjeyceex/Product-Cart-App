@@ -12,9 +12,10 @@
 
 ---
 
-## Features Implemented & Assumptions
+## Features Implemented
 
 - React app bootstrapped with Create React App.
+- Uses `localStorage` to persist cart data across page reloads.
 - Basic product cart functionality (add, remove, update items).
 - State management with React hooks.
 - Assumes modern browser with ES6+ support.
@@ -22,6 +23,13 @@
 - Uses `--legacy-peer-deps` flag to resolve dependency conflicts with React and testing libraries.
 
 ---
+
+## Feature Flow / Behavior
+
+- Clicking a product displays a card with more details.
+- When adding a product to the cart, the product quantity resets to 1.
+- The total count of items in the cart does not change immediately upon adding.
+- The grand total updates, applying a 10% discount if the total reaches $100 or more.
 
 ## Time Spent
 
